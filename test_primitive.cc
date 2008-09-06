@@ -95,8 +95,19 @@ int main()
 	Vector3 n(4, 0, 0);
 	Plane pl(mat, origin, n);
 
+	Vector3 d(-2, -1, -5);
+	Vector3 d2(-4, -5, 1);
+	Point o = { 10, 4, 9 };
+	Ray ray;
+	ray.direction = &d;
+	ray.origin = o;
+	Ray ray2;
+	ray.direction = &d2;
+	ray.origin = o;
 
-
+	Point temp;
+	TEST(pl.intersects(ray, temp), "intersects()");
+	TEST(!pl.intersects(ray2, temp), "intersects(), 2");
 	}
 
 

@@ -63,8 +63,6 @@ Plane::Plane(const Material& material_, Point origin_, Vector3 normal_)
 : material(material_), location(origin_)
 {
 	normal = normal_.normalize();
-
-
 }
 
 Plane::~Plane()
@@ -73,7 +71,31 @@ Plane::~Plane()
 
 bool Plane::intersects(const Ray& ray, Point& point) const
 {
+	double d = dot(Vector3(location), normal);
+	double x1 = ray.origin.x;
+	double y1 = ray.origin.y;
+	double z1 = ray.origin.z;
+	double x2 = ray.origin.x + ray.direction->get_x();
+	double y2 = ray.origin.y + ray.direction->get_y();
+	double z2 = ray.origin.z + ray.direction->get_z();
+	double a = normal.get_x();
+	double b = normal.get_y();
+	double c = normal.get_z();
+	double nume = d - a * x1 - b * y1 - c * z1;
+	double denom = a * (x2 - x1) + b * (y2 - y1) + c * (z2 - z1);
 
+	if (denom > -0.001 && denom < 0.001) {
+		return false;
+	}
+
+	double t = nume / denom;
+	if (t < 0) {
+		return false;
+	}
+	point.x = ray.origin.x + (x2 - ray.origin.x) * t;
+	point.y = ray.origin.y + (y2 - ray.origin.y) * t;
+	point.z = ray.origin.z + (z2 - ray.origin.z) * t;
+	return true;
 }
 
 const Point& Plane::get_location() const
