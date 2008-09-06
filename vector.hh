@@ -14,6 +14,7 @@ public:
 	Vector3();
 	Vector3(double x, double y, double z);
 	Vector3(const Point& point);
+	Vector3(const Point& p1, const Point& p2);
 
 	Vector3& operator+=(const Vector3& other);
 	Vector3& operator-=(const Vector3& other);

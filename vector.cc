@@ -11,7 +11,13 @@ Vector3::Vector3(double x_, double y_, double z_)
 {
 }
 
-Vector3::Vector3(const Point& point) : x(point.x), y(point.y), z(point.z)
+Vector3::Vector3(const Point& point)
+: x(point.x), y(point.y), z(point.z)
+{
+}
+
+Vector3::Vector3(const Point& p1, const Point& p2)
+: x(p2.x - p1.x), y(p2.y - p1.y), z(p2.z - p1.z)
 {
 }
 

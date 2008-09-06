@@ -29,6 +29,14 @@ int main()
 	}
 
 	{
+	Vector3 v1(2, 4, 5);
+	Point p1 = {0, -3, 1};
+	Point p2 = {2, 1, 6};
+
+	TEST(v1 == Vector3(p1, p2), "Vector3(const Point&, const Point&)");
+	}
+
+	{
 	Vector3 v1(1, 2, 3);
 	Vector3 v2(1, 2, 3);
 
