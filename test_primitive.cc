@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdexcept>
 #include "common.hh"
 #include "primitive.hh"
 #include "vector.hh"
@@ -59,6 +60,43 @@ int main()
 	Point p = { 4.6, 2.8, 9.3 };
 
 	TEST(p == sp.get_location(), "get_location()");
+	}
+
+	BEGIN_TESTS("Plane");
+
+	{
+	Color green = { 0.0f, 1.0f, 0.0f };
+	Material mat(green);
+	Point origin = { 1.0f, 5.0f, 9.0f };
+
+	try {
+		Plane(mat, origin, Vector3(0, 0, 0));
+		TEST(false, "Plane()");
+	} catch (std::runtime_error e) {
+		TEST(true, "Plane()");
+	}
+	}
+
+	{
+	Color green = { 0.0f, 1.0f, 0.0f };
+	Material mat(green);
+	Point origin = { 1.0f, 5.0f, 9.0f };
+	Vector3 n(1, 4, 5);
+	Plane pl(mat, origin, n);
+	Point p = { 1, 5, 9};
+
+	TEST(pl.get_location() == p, "get_location()");
+	}
+
+	{
+	Color green = { 0.0f, 1.0f, 0.0f };
+	Material mat(green);
+	Point origin = { 0.0f, 0.0f, 0.0f };
+	Vector3 n(4, 0, 0);
+	Plane pl(mat, origin, n);
+
+
+
 	}
 
 

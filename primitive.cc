@@ -58,3 +58,26 @@ const Point& Sphere::get_location() const
 	return location;
 }
 
+
+Plane::Plane(const Material& material_, Point origin_, Vector3 normal_)
+: material(material_), location(origin_)
+{
+	normal = normal_.normalize();
+
+
+}
+
+Plane::~Plane()
+{
+}
+
+bool Plane::intersects(const Ray& ray, Point& point) const
+{
+
+}
+
+const Point& Plane::get_location() const
+{
+	return location;
+}
+

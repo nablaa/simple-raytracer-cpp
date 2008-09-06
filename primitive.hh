@@ -2,6 +2,7 @@
 #define PRIMITIVE_HH
 
 #include <cmath>
+#include <stdexcept>
 #include "vector.hh"
 #include "common.hh"
 
@@ -39,5 +40,21 @@ private:
 	Point location;
 	double rad;
 };
+
+
+class Plane : public Primitive {
+public:
+	Plane(const Material& material, Point origin, Vector3 normal);
+	~Plane();
+	bool intersects(const Ray& ray, Point& point) const;
+	const Point& get_location() const;
+
+private:
+	const Material& material;
+	Point location;
+	Vector3 normal;
+
+};
+
 
 #endif // PRIMITIVE_HH

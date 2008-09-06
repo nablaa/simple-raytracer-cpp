@@ -11,6 +11,7 @@ struct Point {
 
 class Vector3 {
 public:
+	Vector3();
 	Vector3(double x, double y, double z);
 	Vector3(const Point& point);
 
@@ -19,6 +20,7 @@ public:
 	Vector3& operator=(const Vector3& other);
 	Vector3 operator-() const;
 	Vector3& normalize();
+	double length() const;
 
 	double get_x() const;
 	double get_y() const;

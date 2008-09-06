@@ -124,6 +124,14 @@ int main()
 	Vector3 c = cross(v1, v2);
 	TEST(c == v3, "cross()");
 	}
+
+	{
+	Vector3 v1(2, 6, 9);
+	Vector3 v2(0, 0, 0);
+
+	TEST(float_equal(v1.length(), 11), "length()");
+	TEST(float_equal(v2.length(), 0), "length(), 2");
+	}
 }
 
 

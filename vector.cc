@@ -1,6 +1,13 @@
 #include "vector.hh"
 
-Vector3::Vector3(double x_, double y_, double z_) : x(x_), y(y_), z(z_)
+Vector3::Vector3()
+: x(0), y(0), z(0)
+{
+
+}
+
+Vector3::Vector3(double x_, double y_, double z_)
+: x(x_), y(y_), z(z_)
 {
 }
 
@@ -36,6 +43,11 @@ Vector3 Vector3::operator-() const
 {
 	Vector3 v(-x, -y, -z);
 	return v;
+}
+
+double Vector3::length() const
+{
+	return sqrt(x * x + y * y + z * z);
 }
 
 Vector3& Vector3::normalize()
