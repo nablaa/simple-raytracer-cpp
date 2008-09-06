@@ -1,6 +1,8 @@
 #ifndef SCENE_HH
 #define SCENE_HH
 
+#include <vector>
+#include "primitive.hh"
 #include "common.hh"
 #include "vector.hh"
 
@@ -20,8 +22,8 @@ class Scene {
 public:
 
 private:
-	std::vector<*Light> lights;
-	std::vector<*Primitive> objects;
+	std::vector<Light *> lights;
+	std::vector<Primitive *> objects;
 	Camera& camera;
 };
 

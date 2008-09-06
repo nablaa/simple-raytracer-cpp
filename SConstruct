@@ -10,4 +10,5 @@ env.Append(CPPFLAGS = Split('-std=c++98 -Wall -Wextra -Wpointer-arith -Wwrite-st
 
 env.Program(target = 'test_vector', source = Split('vector.cc test_vector.cc'))
 env.Program(target = 'test_primitive', source = Split('primitive.cc vector.cc test_primitive.cc'))
+env.Program(target = 'test_scene', source = Split('primitive.cc vector.cc scene.cc test_scene.cc'))
 
