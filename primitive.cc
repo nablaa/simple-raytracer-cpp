@@ -33,6 +33,10 @@ Sphere::~Sphere()
 
 bool Sphere::intersects(const Ray& ray, Point& point) const
 {
+	if (ray.direction->length() < 0.999 || ray.direction->length() > 1.001) {
+		throw std::logic_error("ray direction must be unit vector");
+	}
+
 	Vector3 v = ray.origin - location;
 	double disc = pow(dot(v, *ray.direction), 2) - (dot(v, v) - rad * rad);
 	if (disc < 0) {

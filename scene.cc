@@ -11,7 +11,7 @@ Camera::Camera(Point origin_, Vector3 direction_, Vector3 angle_,
 	double ww = w * 1.0 / ratio;
 	double hh = h * 1.0 / ratio;
 
-	Point s = {d, ww, hh};
+	Point s = {d, -ww / 2.0, hh / 2.0};
 	start = s;
 	x = Vector3(0, 1, 0);
 	y = Vector3(0, 0, -1);
@@ -79,6 +79,7 @@ void Scene::render()
 	for (size_t j = 0; j < camera.get_height(); ++j) {
 		for (size_t i = 0; i < camera.get_width(); ++i) {
 			Ray *ray = camera.shoot_ray(i, j);
+			ray->direction->normalize();
 			double min_dist = std::numeric_limits<double>::infinity();
 			const Primitive *nearest = NULL;
 

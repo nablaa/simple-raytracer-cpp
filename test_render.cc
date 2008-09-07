@@ -25,8 +25,8 @@ int main()
 	// create objects
 	Color green = { 0.0f, 1.0f, 0.0f };
 	Material mat(green);
-	Point origin = { 100.0f, 10.0f, -3.0f };
-	Sphere sp(mat, origin, 1.0);
+	Point origin = { 600.0f, 0.0f, 0.0f };
+	Sphere sp(mat, origin, 5.0);
 	sc.add_object(&sp);
 
 	// rendering
@@ -34,11 +34,8 @@ int main()
 
 	// saving to file
 	save_ppm("test_render_01.ppm", sc.get_imagedata());
-	
-	
 
 	}
-
 
 }
 

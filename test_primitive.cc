@@ -23,23 +23,27 @@ int main()
 	
 	Vector3 v1(1, 0, 0);
 	Point p = { -10.0f, 0.0f, 0.0f };
+	v1.normalize();
 	Ray ray;
 	ray.origin = p;
 	ray.direction = &v1;
 
 	Vector3 v2(-1, 0, 0);
+	v2.normalize();
 	Ray ray2;
 	ray2.origin = p;
 	ray2.direction = &v2;
 
 	Point p2 = { 7, 8, 9 };
 	Vector3 v3(-3, -4, -5);
+	v3.normalize();
 	Ray ray3;
 	ray3.origin = p2;
 	ray3.direction = &v3;
 
 	Point p3 = { 7, 8, 9 };
 	Vector3 v4(3, -1, -1);
+	v4.normalize();
 	Ray ray4;
 	ray4.origin = p3;
 	ray4.direction = &v4;
