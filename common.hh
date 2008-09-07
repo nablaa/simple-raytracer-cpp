@@ -1,6 +1,7 @@
 #ifndef COMMON_HH
 #define COMMON_HH
 
+#include <vector>
 #include "vector.hh"
 
 struct Color {
@@ -17,5 +18,6 @@ struct Light {
 	double intensity;
 };
 
+typedef std::vector<std::vector<Color> > ImageData;
 
 #endif // COMMON_HH

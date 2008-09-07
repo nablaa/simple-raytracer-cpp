@@ -33,8 +33,6 @@ private:
 };
 
 
-typedef std::vector<std::vector<Color> > ImageData;
-
 class Scene {
 public:
 	Scene(Camera& camera, Color bg);
