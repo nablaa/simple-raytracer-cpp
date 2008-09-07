@@ -58,6 +58,11 @@ const Point& Sphere::get_location() const
 	return location;
 }
 
+const Material& Sphere::get_material() const
+{
+	return material;
+}
+
 
 Plane::Plane(const Material& material_, Point origin_, Vector3 normal_)
 : material(material_), location(origin_)
@@ -103,3 +108,7 @@ const Point& Plane::get_location() const
 	return location;
 }
 
+const Material& Plane::get_material() const
+{
+	return material;
+}

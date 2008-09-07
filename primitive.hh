@@ -25,6 +25,7 @@ public:
 	virtual ~Primitive() {};
 	virtual bool intersects(const Ray& ray, Point& point) const = 0;
 	virtual const Point& get_location() const = 0;
+	virtual const Material& get_material() const = 0;
 };
 
 
@@ -34,6 +35,7 @@ public:
 	~Sphere();
 	bool intersects(const Ray& ray, Point& point) const;
 	const Point& get_location() const;
+	const Material& get_material() const;
 
 private:
 	const Material& material;
@@ -48,6 +50,7 @@ public:
 	~Plane();
 	bool intersects(const Ray& ray, Point& point) const;
 	const Point& get_location() const;
+	const Material& get_material() const;
 
 private:
 	const Material& material;
