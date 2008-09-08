@@ -107,7 +107,7 @@ void Scene::render()
 			// TODO primitive: get_normal()
 			Vector3 normal(nearest->get_location(), nearest_p);
 			normal.normalize();
-			double error = 0.01;
+			double error = 0.001;
 			Point hit_p = { nearest_p.x + normal.get_x() * error,
 			                nearest_p.y + normal.get_y() * error,
 			                nearest_p.z + normal.get_z() * error };
@@ -173,8 +173,19 @@ Color Scene::calculate_shading(const Material& mat, bool in_shadow,
 	}
 
 	Color c = { mat.get_color().r, mat.get_color().g, mat.get_color().b };
-	c.r *= l_distance * l_intensity;
-	c.g *= l_distance * l_intensity;
-	c.b *= l_distance * l_intensity;
+	// TODO replace 255.0 with light color
+	double light_color = 255.0 / (l_distance * l_distance);
+	c.r *= light_color * l_intensity;
+	c.g *= light_color * l_intensity;
+	c.b *= light_color * l_intensity;
+	if (c.r > 1.0) {
+		c.r = 1.0;
+	}
+	if (c.g > 1.0) {
+		c.g = 1.0;
+	}
+	if (c.b > 1.0) {
+		c.b = 1.0;
+	}
 	return c;
 }
