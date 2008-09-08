@@ -84,15 +84,17 @@ void Scene::render()
 			const Primitive *nearest = NULL;
 
 			// find nearest object
-			Point p = {0, 0, 0};
+			Point nearest_p = {0, 0, 0};
 			std::vector<const Primitive *>::const_iterator it;
 			for (it = objects.begin(); it != objects.end(); ++it) {
+				Point p = {0, 0, 0};
 				if ((*it)->intersects(*ray, p)) {
 					Vector3 v(ray->origin, p);
 					double dist = v.length();
 					if (dist < min_dist) {
 						min_dist = dist;
 						nearest = *it;
+						nearest_p = p;
 					}
 				}
 			}
@@ -103,12 +105,12 @@ void Scene::render()
 			}
 
 			// TODO primitive: get_normal()
-			Vector3 normal(nearest->get_location(), p);
+			Vector3 normal(nearest->get_location(), nearest_p);
 			normal.normalize();
 			double error = 0.01;
-			Point hit_p = { p.x + normal.get_x() * error,
-			                p.y + normal.get_y() * error,
-			                p.z + normal.get_z() * error };
+			Point hit_p = { nearest_p.x + normal.get_x() * error,
+			                nearest_p.y + normal.get_y() * error,
+			                nearest_p.z + normal.get_z() * error };
 			
 			// TODO remove
 			//image.at(j).at(i) = nearest->get_material().get_color();

@@ -29,7 +29,7 @@ int main()
 	Material mat2(red);
 	Point origin = { 600.0f, 0.0f, 0.0f };
 	Point origin2 = { 610.0f, 5.0f, 1.0f };
-	Point origin3 = { 610.0f, 0.0f, -5.0f };
+	Point origin3 = { 590.0f, -5.0f, -1.0f };
 	Sphere sp(mat, origin, 5.0);
 	Sphere sp2(mat2, origin2, 3.0);
 	Sphere sp3(mat2, origin3, 3.0);
