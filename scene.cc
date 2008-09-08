@@ -84,9 +84,9 @@ void Scene::render()
 			const Primitive *nearest = NULL;
 
 			// find nearest object
+			Point p = {0, 0, 0};
 			std::vector<const Primitive *>::const_iterator it;
 			for (it = objects.begin(); it != objects.end(); ++it) {
-				Point p = {0, 0, 0};
 				if ((*it)->intersects(*ray, p)) {
 					Vector3 v(ray->origin, p);
 					double dist = v.length();
@@ -101,19 +101,56 @@ void Scene::render()
 				image.at(j).at(i) = bgcolor;
 				continue;
 			}
+
+			// TODO primitive: get_normal()
+			Vector3 normal(nearest->get_location(), p);
+			normal.normalize();
+			double error = 0.01;
+			Point hit_p = { p.x + normal.get_x() * error,
+			                p.y + normal.get_y() * error,
+			                p.z + normal.get_z() * error };
 			
 			// TODO remove
-			image.at(j).at(i) = nearest->get_material().get_color();
+			//image.at(j).at(i) = nearest->get_material().get_color();
 
 			// check shadow
 			// check reflection
 			// check refraction
 			// check distance and shading
+			bool in_shadow = false;
+			const Light *l = NULL;
+			double l_dist = 0;
 			std::vector<const Light *>::const_iterator itt;
 			for (itt = lights.begin(); itt != lights.end(); ++itt) {
+				l = *itt;
+				Vector3 shadow_v(hit_p, (*itt)->origin);
+				l_dist = shadow_v.length();
+				Ray s_ray;
+				shadow_v.normalize();
+				s_ray.direction = &shadow_v;
 
+				//std::cout << "p.x: " << p.x << "\thit_p.x: " << hit_p.x << std::endl;
+				s_ray.origin = hit_p;
+				std::vector<const Primitive *>::const_iterator jt;
+				for (jt = objects.begin(); jt != objects.end(); ++jt) {
+					Point temp;
+					if ((*jt)->intersects(s_ray, temp)) {
+						in_shadow = true;
+					}
+				}
+				if (!in_shadow) {
+					break;
+				}
 			}
 
+			if (!l) {
+				image.at(j).at(i) = nearest->get_material().get_color();
+			} else {
+				image.at(j).at(i) = calculate_shading(nearest->get_material(),
+				                                      in_shadow,
+								      l->intensity, l_dist,
+				                                      NULL, NULL, 0);
+			}
 		}
 	}
 }
@@ -121,4 +158,21 @@ void Scene::render()
 const ImageData& Scene::get_imagedata() const
 {
 	return image;
+}
+
+Color Scene::calculate_shading(const Material& mat, bool in_shadow,
+                               double l_intensity, double l_distance,
+                               const Color *refraction_color,
+                               const Color *reflection_color, double rs)
+{
+	if (in_shadow) {
+		Color c = { 0, 0, 0};
+		return c;
+	}
+
+	Color c = { mat.get_color().r, mat.get_color().g, mat.get_color().b };
+	c.r *= l_distance * l_intensity;
+	c.g *= l_distance * l_intensity;
+	c.b *= l_distance * l_intensity;
+	return c;
 }
