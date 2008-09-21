@@ -1,20 +1,17 @@
 #include "scene.hh"
 
 Camera::Camera(Point origin_, Vector3 direction_, Vector3 angle_,
-               size_t width, size_t height, double ratio_, double fov_)
+               size_t width, size_t height, double fov_)
 : origin(origin_), direction(direction_), angle(angle_), w(width), h(height),
-  ratio(ratio_), fov(fov_)
+  fov(fov_)
 {
 	// TODO implement direction & angle
-	direction = Vector3(1, 0, 0);
-	double d = w * 1.0 / (ratio * 2 * tan(fov / 2) * M_PI / 180.0);
-	double ww = w * 1.0 / ratio;
-	double hh = h * 1.0 / ratio;
-
-	Point s = {d, -ww / 2.0, hh / 2.0};
-	start = s;
-	x = Vector3(0, 1, 0);
-	y = Vector3(0, 0, -1);
+	alpha = tan(fov / 2.0 * M_PI / 180.0);
+	dx = 2.0 / width;
+	dy = 2.0 / height;
+	direction = Vector3(0, 0, 1);
+	Point o = { 0, 0, 0 };
+	origin = o;
 }
 
 Ray *Camera::shoot_ray(size_t i, size_t j)
@@ -23,15 +20,11 @@ Ray *Camera::shoot_ray(size_t i, size_t j)
 		throw std::out_of_range("index out of bounds");
 	}
 
-	Point p = start;
-	p.x += i * x.get_x() / ratio;
-	p.y += i * x.get_y() / ratio;
-	p.z += i * x.get_z() / ratio;
-	p.x += j * y.get_x() / ratio;
-	p.y += j * y.get_y() / ratio;
-	p.z += j * y.get_z() / ratio;
+	double x = 1 - (alpha * (i + 0.5) * dx);	
+	double y = 1 - (alpha * (j + 0.5) * dy);	
+	double z = 1.0;
 
-	ray_v = Vector3(origin, p);
+	ray_v = Vector3(x, y, z);
 	ray.direction = &ray_v;
 	ray.origin = origin;
 	return &ray;

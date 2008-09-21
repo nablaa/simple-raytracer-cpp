@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import SCons
 import glob
 import os

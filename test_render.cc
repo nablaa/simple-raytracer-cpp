@@ -17,9 +17,8 @@ int main()
 	Vector3 a(0, -1, 0);
 	size_t w = 800;
 	size_t h = 800;
-	double ratio = 10.0;
 	Color bg = { 0, 0, 200 };
-	Camera cam(o, d, a, w, h, ratio, 90.0);
+	Camera cam(o, d, a, w, h, 90.0);
 	Scene sc(cam, bg);
 
 	// create objects
@@ -29,10 +28,10 @@ int main()
 	Material mat(green);
 	Material mat2(red);
 	Material mat3(blue);
-	Point origin = { 600.0f, 0.0f, 0.0f };
-	Point origin2 = { 610.0f, 6.0f, 3.0f };
-	Point origin3 = { 590.0f, -5.0f, -1.0f };
-	Sphere sp(mat, origin, 5.0);
+	Point origin = { 5.0f, 0.0f, 10.0f };
+	Point origin2 = { -5.0f, 0.0f, 9.0f };
+	Point origin3 = { 0.0f, 5.0f, 11.0f };
+	Sphere sp(mat, origin, 3.0);
 	Sphere sp2(mat2, origin2, 3.0);
 	Sphere sp3(mat3, origin3, 3.0);
 	sc.add_object(&sp);
@@ -40,8 +39,7 @@ int main()
 	sc.add_object(&sp3);
 
 	// create lights
-	Point p = { 600, 10, 20 };
-	//Point p = { 570, -10, 5 };
+	Point p = { 3, 10, 8 };
 	Light li1;
 	li1.origin = p;
 	li1.intensity = 1.0;

@@ -14,8 +14,7 @@ int main()
 	Vector3 a(0, -1, 0);
 	size_t w = 800;
 	size_t h = 600;
-	double ratio = 10.0;
-	Camera cam(o, d, a, w, h, ratio, 45.0);
+	Camera cam(o, d, a, w, h, 90.0);
 	TEST(w == cam.get_width(), "get_width()");
 	TEST(h == cam.get_height(), "get_height()");
 	}
@@ -27,8 +26,7 @@ int main()
 	Vector3 a(0, -1, 0);
 	size_t w = 100;
 	size_t h = 100;
-	double ratio = 10.0;
-	Camera cam(o, d, a, w, h, ratio, 45.0);
+	Camera cam(o, d, a, w, h, 90.0);
 
 	TEST(false, "shoot_ray()");
 	}
@@ -42,9 +40,8 @@ int main()
 	Vector3 a(0, -1, 0);
 	size_t w = 100;
 	size_t h = 100;
-	double ratio = 10.0;
 	Color bg = { 0, 0, 0 };
-	Camera cam(o, d, a, w, h, ratio, 45.0);
+	Camera cam(o, d, a, w, h, 90.0);
 	Scene sc(cam, bg);
 	try {
 		sc.add_object(NULL);
