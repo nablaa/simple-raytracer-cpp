@@ -67,7 +67,7 @@ int main()
 	Matrix3 m1(v1, v2, v3);
 	Matrix3 m2(v2, v1, v3);
 	m1 -= m2;
-	TEST(m1 == Matrix3(v1 - v2, v1 - v2, v3 - v3), "Matrix3& operator-=(const Matrix3& other)");
+	TEST(m1 == Matrix3(v1 - v2, v2 - v1, v3 - v3), "Matrix3& operator-=(const Matrix3& other)");
 	}
 
 	{
@@ -86,7 +86,7 @@ int main()
 
 	{
 	Matrix3 m(1, 2, 3, 4, 5, 6, 7, 8, 9);
-	TEST(-m == Matrix3(-1, -2, -3, -4, -5, -6, -7, -8, -9), "Matrix3 operator() const");
+	TEST(-m == Matrix3(-1, -2, -3, -4, -5, -6, -7, -8, -9), "Matrix3 operator-() const");
 	}
 
 	{
@@ -107,8 +107,13 @@ int main()
 
 	{
 	Matrix3 m(1, 2, 3, 4, 5, 6, 7, 8, 9);
+	TEST(m.elem(1, 1) == 1 && m.elem(1, 2) == 2 && m.elem(1, 3) == 3 && m.elem(2, 1) == 4 && m.elem(2, 2) == 5 && m.elem(2, 3) == 6 && m.elem(3, 1) == 7 && m.elem(3, 2) == 8 && m.elem(3, 3) == 9, "double elem(size_t i, size_t, j) const");
+	}
+
+	{
+	Matrix3 m(1, 2, 3, 4, 5, 6, 7, 8, 9);
 	Vector3 v1(1, 2, 3);
-	TEST(m.mul(v1) == Vector3(30, 36, 42), "Vector3 mul(const Vector3& v) const");
+	TEST(m.mul(v1) == Vector3(14, 32, 50), "Vector3 mul(const Vector3& v) const");
 	}
 
 	{
@@ -141,7 +146,7 @@ int main()
 	Matrix3 m(1, 2, 3, 4, 5, 6, 7, 8, 9);
 	std::ostringstream oss;
 	oss << m;
-	std::string str("((1, 2, 3), (4, 5, 6), (7, 8, 9))");
+	std::string str("((1, 2, 3)(4, 5, 6)(7, 8, 9))");
 
 	TEST(oss.str() == str, "operator<<");
 	}

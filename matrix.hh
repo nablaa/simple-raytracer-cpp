@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <cassert>
 #include <stdexcept>
 #include "vector.hh"
 
@@ -20,6 +21,7 @@ public:
 
 	Vector3 col(size_t col) const;
 	Vector3 operator[](size_t row) const;
+	double elem(size_t i, size_t j) const;
 
 	Vector3 mul(const Vector3& v) const;
 	Matrix3 transpose() const;
@@ -27,7 +29,7 @@ public:
 	friend Matrix3 operator+(const Matrix3& left, const Matrix3& right);
 	friend Matrix3 operator-(const Matrix3& left, const Matrix3& right);
 	friend Matrix3 operator*(const Matrix3& left, const Matrix3& right);
-	friend std::ostream& operator<<(std::ostream& os, const Matrix3& vector);
+	friend std::ostream& operator<<(std::ostream& os, const Matrix3& matrix);
 
 private:
 	double elems[3][3];
@@ -37,6 +39,6 @@ private:
 Matrix3 operator+(const Matrix3& left, const Matrix3& right);
 Matrix3 operator-(const Matrix3& left, const Matrix3& right);
 Matrix3 operator*(const Matrix3& left, const Matrix3& right);
-std::ostream& operator<<(std::ostream& os, const Matrix3& vector);
+std::ostream& operator<<(std::ostream& os, const Matrix3& matrix);
 
 #endif // MATRIX_HH
