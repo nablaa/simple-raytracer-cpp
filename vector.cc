@@ -46,8 +46,7 @@ Vector3& Vector3::operator=(const Vector3& other)
 
 Vector3 Vector3::operator-() const
 {
-	Vector3 v(-x, -y, -z);
-	return v;
+	return Vector3(-x, -y, -z);
 }
 
 double Vector3::length() const
@@ -84,14 +83,12 @@ double Vector3::get_z() const
 
 Vector3 operator+(const Vector3& left, const Vector3& right)
 {
-	Vector3 v(left.x + right.x, left.y + right.y, left.z + right.z);
-	return v;
+	return Vector3(left.x + right.x, left.y + right.y, left.z + right.z);
 }
 
 Vector3 operator-(const Vector3& left, const Vector3& right)
 {
-	Vector3 v(left.x - right.x, left.y - right.y, left.z - right.z);
-	return v;
+	return Vector3(left.x - right.x, left.y - right.y, left.z - right.z);
 }
 
 double dot(const Vector3& left, const Vector3& right)
@@ -101,8 +98,7 @@ double dot(const Vector3& left, const Vector3& right)
 
 Vector3 cross(const Vector3& a, const Vector3& b)
 {
-	Vector3 v(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
-	return v;
+	return Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
 }
 
 std::ostream& operator<<(std::ostream& os, const Vector3& v)
