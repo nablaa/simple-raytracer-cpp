@@ -8,7 +8,7 @@ const char YELLOW[] = "\x1b[33m";
 const char BLUE[]   = "\x1b[34m";
 
 #define TEST(test, desc) \
-{ std::cout << BLUE << desc << (test ? "\x1b[32m\tOK" : "\x1b[31m\tFAIL") << RESET << std::endl; }
+{ std::cout << BLUE << desc << (test ? GREEN : RED) << (test ? "\tOK" : "\tFAIL") << RESET << std::endl; }
 
 #define BEGIN_TESTS(unit) \
 { std::cout << YELLOW << std::endl << unit << RESET << std::endl;}
