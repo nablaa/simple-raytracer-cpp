@@ -3,6 +3,7 @@
 scons &&
 ./test_primitive &&
 ./test_vector &&
+./test_matrix &&
 ./test_scene &&
 ./test_file &&
 ./test_render &&
