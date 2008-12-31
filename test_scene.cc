@@ -10,11 +10,10 @@ int main()
 
 	{
 	Point o = { 0, 0, 0 };
-	Vector3 d(0, 0, 1);
-	Vector3 a(0, -1, 0);
+	Matrix3 rot(1, 0, 0, 0, 1, 0, 0, 0, 1);
 	size_t w = 800;
 	size_t h = 600;
-	Camera cam(o, d, a, w, h, 90.0);
+	Camera cam(o, rot, w, h);
 	TEST(w == cam.get_width(), "get_width()");
 	TEST(h == cam.get_height(), "get_height()");
 	}
@@ -22,11 +21,10 @@ int main()
 	{
 	// TODO implement
 	Point o = { 0, 0, 0 };
-	Vector3 d(0, 0, 1);
-	Vector3 a(0, -1, 0);
+	Matrix3 rot(1, 0, 0, 0, 1, 0, 0, 0, 1);
 	size_t w = 100;
 	size_t h = 100;
-	Camera cam(o, d, a, w, h, 90.0);
+	Camera cam(o, rot, w, h);
 
 	TEST(false, "shoot_ray()");
 	}
@@ -36,12 +34,11 @@ int main()
 
 	{
 	Point o = { 0, 0, 0 };
-	Vector3 d(0, 0, 1);
-	Vector3 a(0, -1, 0);
+	Matrix3 rot(1, 0, 0, 0, 1, 0, 0, 0, 1);
 	size_t w = 100;
 	size_t h = 100;
 	Color bg = { 0, 0, 0 };
-	Camera cam(o, d, a, w, h, 90.0);
+	Camera cam(o, rot, w, h);
 	Scene sc(cam, bg);
 	try {
 		sc.add_object(NULL);

@@ -7,11 +7,12 @@
 #include "primitive.hh"
 #include "common.hh"
 #include "vector.hh"
+#include "matrix.hh"
 
 class Camera {
 public:
-	Camera(Point origin, Vector3 direction, Vector3 angle,
-	       size_t width, size_t height, double fov = 90.0);
+	Camera(Point origin, Matrix3 rotation,
+	       size_t width, size_t height, double factor = 1.0);
 
 	Ray *shoot_ray(size_t i, size_t j);
 	size_t get_width() const;
@@ -19,14 +20,10 @@ public:
 
 private:
 	Point origin;
-	Vector3 direction;
-	Vector3 angle;
+	Matrix3 rotation;
 	size_t w;
 	size_t h;
-	double fov;
-	double alpha;
-	double dx;
-	double dy;
+	double factor;
 
 	Ray ray;
 	Vector3 ray_v;

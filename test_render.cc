@@ -2,6 +2,7 @@
 #include "primitive.hh"
 #include "scene.hh"
 #include "vector.hh"
+#include "matrix.hh"
 #include "common.hh"
 #include "file.hh"
 #include "tests.hh"
@@ -13,12 +14,11 @@ int main()
 	{
 	// initialize camera and scene
 	Point o = { 0, 0, 0 };
-	Vector3 d(0, 0, 1);
-	Vector3 a(0, -1, 0);
+	Matrix3 rot(1, 0, 0, 0, 1, 0, 0, 0, 1);
 	size_t w = 800;
 	size_t h = 800;
 	Color bg = { 0, 0, 200 };
-	Camera cam(o, d, a, w, h, 90.0);
+	Camera cam(o, rot, w, h);
 	Scene sc(cam, bg);
 
 	// create objects
