@@ -26,6 +26,7 @@ public:
 	virtual bool intersects(const Ray& ray, Point& point) const = 0;
 	virtual const Point& get_location() const = 0;
 	virtual const Material& get_material() const = 0;
+	virtual Vector3 get_normal(const Point& point) const = 0;
 };
 
 
@@ -36,6 +37,7 @@ public:
 	bool intersects(const Ray& ray, Point& point) const;
 	const Point& get_location() const;
 	const Material& get_material() const;
+	Vector3 get_normal(const Point& point) const;
 
 private:
 	const Material& material;
@@ -51,6 +53,7 @@ public:
 	bool intersects(const Ray& ray, Point& point) const;
 	const Point& get_location() const;
 	const Material& get_material() const;
+	Vector3 get_normal(const Point& point) const;
 
 private:
 	const Material& material;

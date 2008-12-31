@@ -28,18 +28,18 @@ int main()
 	Material mat(green);
 	Material mat2(red);
 	Material mat3(blue);
-	Point origin = { 0.0f, 0.0f, 40.0f };
-	Point origin2 = { 0.0f, 10.0f, 40.0f };
-	Point origin3 = { 0.0f, -10.0f, 40.0f };
+	Point origin = { 0.0f, 0.0f, 30.0f };
+	Point origin2 = { -6.0f, 6.0f, 30.0f };
+	Point origin3 = { 0.0f, -5.0f, 45.0f };
 	Sphere sp(mat, origin, 3.0);
 	Sphere sp2(mat2, origin2, 3.0);
-	Sphere sp3(mat3, origin3, 3.0);
+	Sphere sp3(mat3, origin3, 10.0);
 	sc.add_object(&sp);
 	sc.add_object(&sp2);
 	sc.add_object(&sp3);
 
 	// create lights
-	Point p = { 10, 10, 30 };
+	Point p = { 5, 0, 25 };
 	Light li1;
 	li1.origin = p;
 	li1.intensity = 1.0;

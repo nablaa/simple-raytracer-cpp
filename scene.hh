@@ -39,10 +39,6 @@ public:
 	void add_light(const Light *light);
 	void render();
 	const ImageData& get_imagedata() const;
-	Color calculate_shading(const Material& mat, bool in_shadow,
-	                        double l_intensity, double l_distance,
-	                        const Color *refraction_color,
-	                        const Color *reflection_color, double rs);
 
 private:
 	std::vector<const Light *> lights;
@@ -53,6 +49,11 @@ private:
 	
 	Color cast_ray(Ray *ray);
 	const Primitive *find_nearest(const Ray& ray, Point& nearest_p);
+	Color calculate_shading(const Primitive& primitive, bool in_shadow,
+	                        const Light& l, double l_distance,
+	                        const Color *refraction_color,
+	                        const Color *reflection_color, double rs,
+	                        const Point& hit_p);
 };
 
 

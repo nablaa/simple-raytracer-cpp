@@ -84,52 +84,48 @@ Color Scene::cast_ray(Ray *ray) {
 		return bgcolor;
 	}
 
-	// TODO primitive: get_normal()
-	Vector3 normal(nearest->get_location(), nearest_p);
-	normal.normalize();
-	double error = 0.001;
-	Point hit_p = { nearest_p.x + normal.get_x() * error,
-			nearest_p.y + normal.get_y() * error,
-			nearest_p.z + normal.get_z() * error };
-	
-	// TODO remove
-	//image.at(j).at(i) = nearest->get_material().get_color();
+	Vector3 n = nearest->get_normal(nearest_p).normalize();
+	double error = 0.1;
+	Point hit_p = { nearest_p.x + n.get_x() * error,
+			nearest_p.y + n.get_y() * error,
+			nearest_p.z + n.get_z() * error };
 
-	// check shadow
-	// check reflection
-	// check refraction
-	// check distance and shading
 	bool in_shadow = false;
 	const Light *l = NULL;
 	double l_dist = 0;
 	std::vector<const Light *>::const_iterator itt;
 	for (itt = lights.begin(); itt != lights.end(); ++itt) {
 		l = *itt;
-		Vector3 shadow_v(hit_p, (*itt)->origin);
-		l_dist = shadow_v.length();
+		Vector3 shadow_v(hit_p, l->origin);
 		Ray s_ray;
 		shadow_v.normalize();
 		s_ray.direction = &shadow_v;
-
-		//std::cout << "p.x: " << p.x << "\thit_p.x: " << hit_p.x << std::endl;
 		s_ray.origin = hit_p;
 		std::vector<const Primitive *>::const_iterator jt;
 		for (jt = objects.begin(); jt != objects.end(); ++jt) {
 			Point temp;
 			if ((*jt)->intersects(s_ray, temp)) {
 				in_shadow = true;
+				l = NULL;
+				break;
 			}
 		}
-		if (!in_shadow) {
+		if (in_shadow) {
 			break;
 		}
 	}
 
+	if (in_shadow) {
+		l = NULL;
+	}
+
 	if (!l) {
-		return nearest->get_material().get_color();
+		Color c = { 0, 0, 0 };
+		return c;
+		//return nearest->get_material().get_color();
 	} else {
-		return calculate_shading(nearest->get_material(), in_shadow,
-		                         l->intensity, l_dist, NULL, NULL, 0);
+		return calculate_shading(*nearest, in_shadow,
+		                         *l, l_dist, NULL, NULL, 0, hit_p);
 	}
 }
 
@@ -160,22 +156,23 @@ const ImageData& Scene::get_imagedata() const
 	return image;
 }
 
-Color Scene::calculate_shading(const Material& mat, bool in_shadow,
-                               double l_intensity, double l_distance,
+Color Scene::calculate_shading(const Primitive& pri, bool in_shadow,
+                               const Light& l, double l_distance,
                                const Color *refraction_color,
-                               const Color *reflection_color, double rs)
+                               const Color *reflection_color, double rs,
+                               const Point& hit_p)
 {
+	const Material& mat = pri.get_material();
+	double l_intensity = l.intensity;
 	if (in_shadow) {
 		Color c = { 0, 0, 0};
 		return c;
 	}
 
-	Color c = { mat.get_color().r, mat.get_color().g, mat.get_color().b };
-	// TODO replace 255.0 with light color
-	double light_color = 255.0 / (l_distance * l_distance);
-	c.r *= light_color * l_intensity;
-	c.g *= light_color * l_intensity;
-	c.b *= light_color * l_intensity;
+	double diff = 1 - dot(pri.get_normal(hit_p).normalize(), (l.origin - hit_p).normalize());
+
+	Color c = { mat.get_color().r * diff, mat.get_color().g * diff, mat.get_color().b * diff };
+
 	if (c.r > 1.0) {
 		c.r = 1.0;
 	}
@@ -185,5 +182,8 @@ Color Scene::calculate_shading(const Material& mat, bool in_shadow,
 	if (c.b > 1.0) {
 		c.b = 1.0;
 	}
+
+	//std::cout << "c.r " << c.r << " c.g " << c.g << " c.b " << c.b << std::endl;
+
 	return c;
 }
