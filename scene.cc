@@ -66,82 +66,93 @@ void Scene::render()
 	for (size_t j = 0; j < camera.get_height(); ++j) {
 		for (size_t i = 0; i < camera.get_width(); ++i) {
 			Ray *ray = camera.shoot_ray(i, j);
-			ray->direction->normalize();
-			double min_dist = std::numeric_limits<double>::infinity();
-			const Primitive *nearest = NULL;
+			image.at(j).at(i) = cast_ray(ray);
+		}
+	}
+}
 
-			// find nearest object
-			Point nearest_p = {0, 0, 0};
-			std::vector<const Primitive *>::const_iterator it;
-			for (it = objects.begin(); it != objects.end(); ++it) {
-				Point p = {0, 0, 0};
-				if ((*it)->intersects(*ray, p)) {
-					Vector3 v(ray->origin, p);
-					double dist = v.length();
-					if (dist < min_dist) {
-						min_dist = dist;
-						nearest = *it;
-						nearest_p = p;
-					}
-				}
+
+Color Scene::cast_ray(Ray *ray) {
+	// TODO remove
+	ray->direction->normalize();
+
+	// find nearest object
+	Point nearest_p = {0, 0, 0};
+	const Primitive *nearest = find_nearest(*ray, nearest_p);
+
+	if (!nearest) {
+		return bgcolor;
+	}
+
+	// TODO primitive: get_normal()
+	Vector3 normal(nearest->get_location(), nearest_p);
+	normal.normalize();
+	double error = 0.001;
+	Point hit_p = { nearest_p.x + normal.get_x() * error,
+			nearest_p.y + normal.get_y() * error,
+			nearest_p.z + normal.get_z() * error };
+	
+	// TODO remove
+	//image.at(j).at(i) = nearest->get_material().get_color();
+
+	// check shadow
+	// check reflection
+	// check refraction
+	// check distance and shading
+	bool in_shadow = false;
+	const Light *l = NULL;
+	double l_dist = 0;
+	std::vector<const Light *>::const_iterator itt;
+	for (itt = lights.begin(); itt != lights.end(); ++itt) {
+		l = *itt;
+		Vector3 shadow_v(hit_p, (*itt)->origin);
+		l_dist = shadow_v.length();
+		Ray s_ray;
+		shadow_v.normalize();
+		s_ray.direction = &shadow_v;
+
+		//std::cout << "p.x: " << p.x << "\thit_p.x: " << hit_p.x << std::endl;
+		s_ray.origin = hit_p;
+		std::vector<const Primitive *>::const_iterator jt;
+		for (jt = objects.begin(); jt != objects.end(); ++jt) {
+			Point temp;
+			if ((*jt)->intersects(s_ray, temp)) {
+				in_shadow = true;
 			}
+		}
+		if (!in_shadow) {
+			break;
+		}
+	}
 
-			if (!nearest) {
-				image.at(j).at(i) = bgcolor;
-				continue;
-			}
+	if (!l) {
+		return nearest->get_material().get_color();
+	} else {
+		return calculate_shading(nearest->get_material(), in_shadow,
+		                         l->intensity, l_dist, NULL, NULL, 0);
+	}
+}
 
-			// TODO primitive: get_normal()
-			Vector3 normal(nearest->get_location(), nearest_p);
-			normal.normalize();
-			double error = 0.001;
-			Point hit_p = { nearest_p.x + normal.get_x() * error,
-			                nearest_p.y + normal.get_y() * error,
-			                nearest_p.z + normal.get_z() * error };
-			
-			// TODO remove
-			//image.at(j).at(i) = nearest->get_material().get_color();
 
-			// check shadow
-			// check reflection
-			// check refraction
-			// check distance and shading
-			bool in_shadow = false;
-			const Light *l = NULL;
-			double l_dist = 0;
-			std::vector<const Light *>::const_iterator itt;
-			for (itt = lights.begin(); itt != lights.end(); ++itt) {
-				l = *itt;
-				Vector3 shadow_v(hit_p, (*itt)->origin);
-				l_dist = shadow_v.length();
-				Ray s_ray;
-				shadow_v.normalize();
-				s_ray.direction = &shadow_v;
+const Primitive *Scene::find_nearest(const Ray& ray, Point& nearest_p)
+{
+	const Primitive *nearest = NULL;
+	double min_dist = std::numeric_limits<double>::infinity();
 
-				//std::cout << "p.x: " << p.x << "\thit_p.x: " << hit_p.x << std::endl;
-				s_ray.origin = hit_p;
-				std::vector<const Primitive *>::const_iterator jt;
-				for (jt = objects.begin(); jt != objects.end(); ++jt) {
-					Point temp;
-					if ((*jt)->intersects(s_ray, temp)) {
-						in_shadow = true;
-					}
-				}
-				if (!in_shadow) {
-					break;
-				}
-			}
-
-			if (!l) {
-				image.at(j).at(i) = nearest->get_material().get_color();
-			} else {
-				image.at(j).at(i) = calculate_shading(nearest->get_material(),
-				                                      in_shadow,
-								      l->intensity, l_dist,
-				                                      NULL, NULL, 0);
+	std::vector<const Primitive *>::const_iterator it;
+	for (it = objects.begin(); it != objects.end(); ++it) {
+		Point p = {0, 0, 0};
+		if ((*it)->intersects(ray, p)) {
+			Vector3 v(ray.origin, p);
+			double dist = v.length();
+			if (dist < min_dist) {
+				min_dist = dist;
+				nearest = *it;
+				nearest_p = p;
 			}
 		}
 	}
+	return nearest;
 }
 
 const ImageData& Scene::get_imagedata() const

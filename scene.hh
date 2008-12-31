@@ -50,6 +50,9 @@ private:
 	Camera& camera;
 	Color bgcolor;
 	ImageData image;
+	
+	Color cast_ray(Ray *ray);
+	const Primitive *find_nearest(const Ray& ray, Point& nearest_p);
 };
 
 
