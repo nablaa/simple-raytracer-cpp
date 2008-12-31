@@ -14,7 +14,7 @@ int main()
 	{
 	// initialize camera and scene
 	Point o = { 0, 0, 0 };
-	Matrix3 rot(1, 0, 0, 0, 1, 0, 0, 0, 1);
+	Matrix3 rot(1, 0, 0, 0, -1, 0, 0, 0, 1);
 	size_t w = 800;
 	size_t h = 800;
 	Color bg = { 0, 0, 200 };
@@ -28,9 +28,9 @@ int main()
 	Material mat(green);
 	Material mat2(red);
 	Material mat3(blue);
-	Point origin = { 5.0f, 0.0f, 10.0f };
-	Point origin2 = { -5.0f, 0.0f, 9.0f };
-	Point origin3 = { 0.0f, 5.0f, 11.0f };
+	Point origin = { 0.0f, 0.0f, 10.0f };
+	Point origin2 = { 0.0f, 0.0f, 20.0f };
+	Point origin3 = { 0.0f, 0.0f, 30.0f };
 	Sphere sp(mat, origin, 3.0);
 	Sphere sp2(mat2, origin2, 3.0);
 	Sphere sp3(mat3, origin3, 3.0);
@@ -39,7 +39,7 @@ int main()
 	sc.add_object(&sp3);
 
 	// create lights
-	Point p = { 3, 10, 8 };
+	Point p = { 10, 10, 10 };
 	Light li1;
 	li1.origin = p;
 	li1.intensity = 1.0;

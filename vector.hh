@@ -22,6 +22,7 @@ public:
 	Vector3 operator-() const;
 	Vector3& normalize();
 	double length() const;
+	Vector3 mul(double n) const;
 
 	double get_x() const;
 	double get_y() const;

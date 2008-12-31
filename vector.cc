@@ -66,6 +66,11 @@ Vector3& Vector3::normalize()
 	return *this;
 }
 
+Vector3 Vector3::mul(double n) const
+{
+	return Vector3(x * n, y * n, z * n);
+}
+
 double Vector3::get_x() const
 {
 	return x;

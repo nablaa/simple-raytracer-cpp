@@ -18,18 +18,6 @@ int main()
 	TEST(h == cam.get_height(), "get_height()");
 	}
 
-	{
-	// TODO implement
-	Point o = { 0, 0, 0 };
-	Matrix3 rot(1, 0, 0, 0, 1, 0, 0, 0, 1);
-	size_t w = 100;
-	size_t h = 100;
-	Camera cam(o, rot, w, h);
-
-	TEST(false, "shoot_ray()");
-	}
-
-
 	BEGIN_TESTS("Scene");
 
 	{

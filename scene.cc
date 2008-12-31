@@ -2,25 +2,25 @@
 
 Camera::Camera(Point origin_, Matrix3 rotation_,
        size_t width, size_t height, double factor_)
-: origin(origin_), rotation(rotation_), w(width), h(height), factor(factor_)
+: origin(origin_), rotation(rotation_), w(width), h(height), factor(factor_),
+  dx(factor_ / width), dy(factor_ / height)
 {
 	rotation = rotation.transpose();
 }
 
 Ray *Camera::shoot_ray(size_t i, size_t j)
 {
-	if (i >= w || j >= h) {
+	if (i < 0 || j < 0 || i >= w || j >= h) {
 		throw std::out_of_range("index out of bounds");
 	}
 
-	ray_v = Vector3(i, j, factor);
-	ray_v = rotation.mul(ray_v);
-	ray_v.normalize();
+	ray_v = rotation.col(3) + (-rotation.col(1)).mul(w / 2.0 * dx - i * dx) +
+	        (-rotation.col(2)).mul(h / 2.0 * dy - j * dy);
 
-	//std::cout << "i: " << i << " j: " << j << " v: " << ray_v << std::endl;
-	
-	ray.direction = &ray_v;
 	ray.origin = origin;
+	ray.direction = &ray_v;
+	ray.direction->normalize();
+
 	return &ray;
 }
 

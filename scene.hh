@@ -24,6 +24,8 @@ private:
 	size_t w;
 	size_t h;
 	double factor;
+	double dx;
+	double dy;
 
 	Ray ray;
 	Vector3 ray_v;

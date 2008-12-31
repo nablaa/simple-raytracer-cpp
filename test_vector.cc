@@ -48,10 +48,12 @@ int main()
 	Vector3 v2(-1, -2, 5);
 	Vector3 v3(2, -1, 11);
 	Vector3 v4(4, 3, 1);
+	Vector3 v5(8, 6, 2);
 
 	TEST(v1 != v2, "operator!=");
 	TEST(v3 == v1 + v2, "operator+");
 	TEST(v4 == v1 - v2, "operator-");
+	TEST(v5 == v4.mul(2), "mul");
 	}
 
 	{
